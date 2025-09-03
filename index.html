@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List - Diks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="todo-app">
+            <h2>To-Do List</h2>
+            
+            <div class="date-tabs">
+                <button class="date-tab" data-date="yesterday">Kemarin</button>
+                <button class="date-tab active" data-date="today">Hari Ini</button>
+                <button class="date-tab" data-date="tomorrow">Besok</button>
+            </div>
+            
+            <div class="input-section">
+                <div class="row">
+                    <input type="text" id="input-box" placeholder="Masukan task baru..." />
+                    <button onclick="addTask()">+ Tambah</button>
+                </div>
+            </div>
+            
+            <div class="task-section" id="yesterday-section" style="display: none;">
+                <div class="section-header">
+                    <div class="section-title">
+                        📅 Kemarin
+                        <span class="task-count-badge" id="yesterday-count">0</span>
+                    </div>
+                </div>
+                <ul id="yesterday-container"></ul>
+            </div>
+            
+            <div class="task-section" id="today-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        🎯 Hari Ini
+                        <span class="task-count-badge" id="today-count">0</span>
+                    </div>
+                </div>
+                <ul id="today-container"></ul>
+            </div>
+            
+            <div class="task-section" id="tomorrow-section" style="display: none;">
+                <div class="section-header">
+                    <div class="section-title">
+                        🚀 Besok
+                        <span class="task-count-badge" id="tomorrow-count">0</span>
+                    </div>
+                </div>
+                <ul id="tomorrow-container"></ul>
+            </div>
+            
+            <div class="summary">
+                <div class="summary-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="total-tasks">0</div>
+                        <div class="stat-label">Total Task</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="completed-tasks">0</div>
+                        <div class="stat-label">Selesai</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="remaining-tasks">0</div>
+                        <div class="stat-label">Tersisa</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="script.js" ></script>
+</html>
