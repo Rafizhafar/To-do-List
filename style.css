@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -44,10 +45,12 @@
   margin-bottom: 25px;
   border-bottom: 2px solid #f0f0f0;
   padding-bottom: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .date-tab {
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
   background: #f5f5f5;
   color: #666;
@@ -56,6 +59,9 @@
   font-size: 14px;
   font-weight: 500;
   transition: all 0.3s ease;
+  flex: 1;
+  min-width: 100px;
+  max-width: 120px;
 }
 
 .date-tab.active {
@@ -83,6 +89,7 @@
   margin-bottom: 15px;
   border: 2px solid transparent;
   transition: border-color 0.3s ease;
+  flex-wrap: nowrap;
 }
 
 .row:focus-within {
@@ -97,6 +104,7 @@ input {
   padding: 12px 10px;
   font-size: 16px;
   color: #333;
+  min-width: 0;
 }
 
 input::placeholder {
@@ -114,6 +122,8 @@ button {
   border-radius: 20px;
   font-weight: 500;
   transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 button:hover {
@@ -132,6 +142,8 @@ button:hover {
   margin-bottom: 15px;
   padding: 10px 0;
   border-bottom: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .section-title {
@@ -141,6 +153,7 @@ button:hover {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .task-count-badge {
@@ -159,23 +172,27 @@ ul {
 
 ul li {
   font-size: 16px;
-  padding: 15px 45px 15px 45px;
+  padding: 15px 50px 15px 50px;
   user-select: none;
   cursor: pointer;
   position: relative;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   background: #fff;
   border: 1px solid #e8e8e8;
   border-radius: 12px;
   transition: all 0.2s ease;
   word-wrap: break-word;
-  line-height: 1.4;
+  word-break: break-word;
+  line-height: 1.5;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
 }
 
 ul li:hover {
   background: #f8f9fa;
   border-color: #4f008f;
-  transform: translateX(5px);
+  transform: translateX(3px);
 }
 
 ul li::before {
@@ -190,6 +207,7 @@ ul li::before {
   left: 15px;
   transform: translateY(-50%);
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 ul li.checked {
@@ -220,15 +238,16 @@ ul li span {
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   font-size: 16px;
   color: #999;
   text-align: center;
-  line-height: 30px;
+  line-height: 32px;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 ul li span:hover {
@@ -249,6 +268,7 @@ ul li span::before {
   border: 2px dashed #ddd;
   border-radius: 12px;
   margin: 20px 0;
+  font-size: 14px;
 }
 
 .summary {
@@ -264,10 +284,13 @@ ul li span::before {
   display: flex;
   justify-content: space-around;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .stat-item {
   text-align: center;
+  flex: 1;
+  min-width: 80px;
 }
 
 .stat-number {
@@ -282,18 +305,496 @@ ul li span::before {
   margin-top: 4px;
 }
 
-@media (max-width: 480px) {
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Large Tablets & Small Desktops (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
   .todo-app {
-    margin: 20px auto;
-    padding: 20px 15px;
+    max-width: 90%;
+    margin: 30px auto 20px;
+    padding: 35px 25px;
+  }
+
+  .todo-app h2 {
+    font-size: 26px;
   }
 
   .date-tabs {
+    gap: 8px;
+  }
+
+  .date-tab {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  ul li {
+    padding: 12px 45px 12px 45px;
+    font-size: 15px;
+  }
+}
+
+/* Tablets Portrait (600px - 768px) */
+@media (min-width: 600px) and (max-width: 767px) {
+  .container {
+    padding: 15px;
+  }
+
+  .todo-app {
+    max-width: 95%;
+    margin: 20px auto;
+    padding: 30px 20px;
+    border-radius: 15px;
+  }
+
+  .todo-app h2 {
+    font-size: 24px;
+    margin-bottom: 25px;
+  }
+
+  .todo-app h2::before {
+    font-size: 28px;
+    margin-right: 12px;
+  }
+
+  .date-tabs {
+    gap: 8px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+  }
+
+  .date-tab {
+    padding: 10px 16px;
+    font-size: 13px;
+    min-width: 90px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  ul li {
+    padding: 12px 45px 12px 45px;
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .summary-stats {
+    gap: 15px;
+  }
+
+  .stat-number {
+    font-size: 22px;
+  }
+}
+
+/* Mobile Large (480px - 599px) */
+@media (min-width: 480px) and (max-width: 599px) {
+  .container {
+    padding: 10px;
+  }
+
+  .todo-app {
+    margin: 15px auto;
+    padding: 25px 18px;
+    border-radius: 12px;
+  }
+
+  .todo-app h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+
+  .todo-app h2::before {
+    font-size: 26px;
+    margin-right: 10px;
+  }
+
+  .date-tabs {
+    gap: 6px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+  }
+
+  .date-tab {
+    padding: 8px 12px;
+    font-size: 12px;
+    flex: 1;
+    min-width: 80px;
+    max-width: none;
+  }
+
+  .row {
+    padding: 3px 3px 3px 15px;
+    border-radius: 20px;
+  }
+
+  input {
+    padding: 10px 8px;
+    font-size: 15px;
+  }
+
+  button {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    gap: 6px;
+  }
+
+  ul li {
+    padding: 12px 40px 12px 40px;
+    font-size: 14px;
+    margin-bottom: 8px;
+    min-height: 45px;
+  }
+
+  ul li::before {
+    height: 18px;
+    width: 18px;
+    left: 12px;
+  }
+
+  ul li.checked::after {
+    left: 17px;
+    font-size: 10px;
+  }
+
+  ul li span {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 14px;
+    right: 8px;
+  }
+
+  .summary {
+    padding: 15px;
+    margin-top: 25px;
+  }
+
+  .summary-stats {
+    gap: 12px;
+  }
+
+  .stat-number {
+    font-size: 20px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .empty-state {
+    padding: 30px 15px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile Medium & Small (320px - 479px) */
+@media (max-width: 479px) {
+  .container {
+    padding: 8px;
+  }
+
+  .todo-app {
+    margin: 10px auto;
+    padding: 20px 15px;
+    border-radius: 10px;
+    max-width: 100%;
+  }
+
+  .todo-app h2 {
+    font-size: 20px;
+    margin-bottom: 18px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .todo-app h2::before {
+    font-size: 24px;
+    margin-right: 8px;
+  }
+
+  .date-tabs {
+    gap: 5px;
+    margin-bottom: 18px;
     flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .date-tab {
+    padding: 8px 12px;
+    font-size: 11px;
+    min-width: 75px;
+    flex: 1;
+    max-width: 100px;
+  }
+
+  .input-section {
+    margin-bottom: 25px;
+  }
+
+  .row {
+    padding: 3px 3px 3px 12px;
+    border-radius: 18px;
+    flex-direction: row;
+  }
+
+  input {
+    padding: 9px 6px;
+    font-size: 14px;
+  }
+
+  input::placeholder {
+    font-size: 13px;
+  }
+
+  button {
+    padding: 9px 15px;
+    font-size: 13px;
+    border-radius: 15px;
+  }
+
+  .section-header {
+    margin-bottom: 12px;
+    padding: 8px 0;
+  }
+
+  .section-title {
+    font-size: 15px;
+    gap: 5px;
+  }
+
+  .task-count-badge {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  ul li {
+    padding: 10px 35px 10px 35px;
+    font-size: 13px;
+    margin-bottom: 6px;
+    min-height: 40px;
+    border-radius: 8px;
+  }
+
+  ul li:hover {
+    transform: translateX(2px);
+  }
+
+  ul li::before {
+    height: 16px;
+    width: 16px;
+    left: 10px;
+    border-width: 1.5px;
+  }
+
+  ul li.checked::after {
+    left: 15px;
+    font-size: 9px;
+  }
+
+  ul li span {
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    font-size: 13px;
+    right: 6px;
+  }
+
+  .summary {
+    padding: 12px;
+    margin-top: 20px;
+  }
+
+  .summary-stats {
+    flex-direction: row;
+    gap: 8px;
+    justify-content: space-around;
+  }
+
+  .stat-item {
+    min-width: 60px;
+  }
+
+  .stat-number {
+    font-size: 18px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .empty-state {
+    padding: 25px 10px;
+    font-size: 12px;
+    margin: 15px 0;
+  }
+}
+
+/* Extra Small Mobile (below 320px) */
+@media (max-width: 319px) {
+  .container {
+    padding: 5px;
+  }
+
+  .todo-app {
+    margin: 5px auto;
+    padding: 15px 10px;
+    border-radius: 8px;
+  }
+
+  .todo-app h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+
+  .todo-app h2::before {
+    font-size: 20px;
+    margin-right: 5px;
+  }
+
+  .date-tabs {
+    flex-direction: column;
+    gap: 5px;
+    align-items: stretch;
+  }
+
+  .date-tab {
+    padding: 8px;
+    font-size: 11px;
+    text-align: center;
+  }
+
+  .row {
+    flex-direction: column;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  input {
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+  }
+
+  button {
+    width: 100%;
+    padding: 8px;
+  }
+
+  ul li {
+    padding: 8px 30px 8px 30px;
+    font-size: 12px;
+  }
+
+  ul li::before {
+    height: 14px;
+    width: 14px;
+    left: 8px;
+  }
+
+  ul li.checked::after {
+    left: 13px;
+    font-size: 8px;
+  }
+
+  ul li span {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 12px;
+    right: 4px;
   }
 
   .summary-stats {
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
+  }
+
+  .stat-number {
+    font-size: 16px;
+  }
+
+  .stat-label {
+    font-size: 9px;
+  }
+}
+
+/* Landscape Orientation for Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .container {
+    padding: 5px;
+  }
+
+  .todo-app {
+    margin: 10px auto;
+    padding: 15px;
+    max-width: 95%;
+  }
+
+  .todo-app h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+
+  .date-tabs {
+    margin-bottom: 15px;
+  }
+
+  .input-section {
+    margin-bottom: 15px;
+  }
+
+  .summary {
+    margin-top: 15px;
+    padding: 12px;
+  }
+
+  .summary-stats {
+    flex-direction: row;
+    gap: 10px;
+  }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  ul li::before {
+    border-width: 1px;
+  }
+
+  .date-tab {
+    border: 0.5px solid transparent;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .container {
+    background: white;
+    padding: 0;
+  }
+
+  .todo-app {
+    box-shadow: none;
+    margin: 0;
+    border: 1px solid #ddd;
+  }
+
+  .date-tabs,
+  .input-section,
+  button,
+  ul li span {
+    display: none;
+  }
+
+  ul li {
+    border: none;
+    padding: 5px 0;
+    margin: 2px 0;
   }
 }
