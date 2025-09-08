@@ -15,7 +15,10 @@
   <body>
     <div class="container">
       <div class="todo-app">
-        <h2>To-Do List</h2>
+        <div class="header-bar">
+          <h2>To-Do List</h2>
+          <button id="logoutBtn" class="btn-logout">Logout</button>
+        </div>
 
         <div class="date-tabs">
           <button class="date-tab" data-date="yesterday">Kemarin</button>
@@ -25,11 +28,7 @@
 
         <div class="input-section">
           <div class="row">
-            <input
-              type="text"
-              id="input-box"
-              placeholder="Masukan task baru..."
-            />
+            <input type="text" id="input-box" placeholder="Masukan task baru..." />
             <button id="add-btn">+ Tambah</button>
           </div>
         </div>
@@ -82,6 +81,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Script utama -->
+    <script type="module" src="script.js"></script>
   </body>
-  <script type="module" src="script.js"></script>
 </html>
