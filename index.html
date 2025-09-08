@@ -1,80 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Do List - Diks</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - ToDo App</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
     <div class="container">
-        <div class="todo-app">
-            <h2>To-Do List</h2>
-            
-            <div class="date-tabs">
-                <button class="date-tab" data-date="yesterday">Kemarin</button>
-                <button class="date-tab active" data-date="today">Hari Ini</button>
-                <button class="date-tab" data-date="tomorrow">Besok</button>
-            </div>
-            
-            <div class="input-section">
-                <div class="row">
-                    <input type="text" id="input-box" placeholder="Masukan task baru..." />
-                    <button onclick="addTask()">+ Tambah</button>
-                </div>
-            </div>
-            
-            <div class="task-section" id="yesterday-section" style="display: none;">
-                <div class="section-header">
-                    <div class="section-title">
-                        📅 Kemarin
-                        <span class="task-count-badge" id="yesterday-count">0</span>
-                    </div>
-                </div>
-                <ul id="yesterday-container"></ul>
-            </div>
-            
-            <div class="task-section" id="today-section">
-                <div class="section-header">
-                    <div class="section-title">
-                        🎯 Hari Ini
-                        <span class="task-count-badge" id="today-count">0</span>
-                    </div>
-                </div>
-                <ul id="today-container"></ul>
-            </div>
-            
-            <div class="task-section" id="tomorrow-section" style="display: none;">
-                <div class="section-header">
-                    <div class="section-title">
-                        🚀 Besok
-                        <span class="task-count-badge" id="tomorrow-count">0</span>
-                    </div>
-                </div>
-                <ul id="tomorrow-container"></ul>
-            </div>
-            
-            <div class="summary">
-                <div class="summary-stats">
-                    <div class="stat-item">
-                        <div class="stat-number" id="total-tasks">0</div>
-                        <div class="stat-label">Total Task</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" id="completed-tasks">0</div>
-                        <div class="stat-label">Selesai</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" id="remaining-tasks">0</div>
-                        <div class="stat-label">Tersisa</div>
-                    </div>
-                </div>
-            </div>
+      <div class="card">
+        <div class="logo">
+          <h1>TodoApp</h1>
+          <p>Organize your tasks beautifully</p>
         </div>
+
+        <!-- FORM LOGIN -->
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+              />
+              <div class="input-icon">@</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+              />
+              <div class="input-icon">🔒</div>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button type="submit" class="btn-primary" id="loginBtn">
+              Sign In
+            </button>
+
+            <div class="divider">
+              <span>or</span>
+            </div>
+
+            <button
+              type="button"
+              class="btn-secondary"
+              onclick="goRegister()"
+              id="registerBtn"
+            >
+              Create Account
+            </button>
+          </div>
+        </form>
+
+        <!-- tempat pesan -->
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <div class="footer">
+          <p>© 2025 TodoApp. Made with ❤️</p>
+        </div>
+      </div>
     </div>
-</body>
-<script src="script.js" ></script>
+
+    <script type="module">
+      import { auth } from "./firebase-config.js";
+      import {
+        signInWithEmailAndPassword,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+      const form = document.getElementById("loginForm");
+      const errorEl = document.getElementById("errorMessage");
+      const successEl = document.getElementById("successMessage");
+
+      // Event submit login
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          successEl.textContent = "Login berhasil! Redirecting...";
+          errorEl.textContent = "";
+          setTimeout(() => {
+            window.location.href = "todo.html";
+          }, 1000);
+        } catch (err) {
+          errorEl.textContent = "Login gagal: " + err.message;
+          successEl.textContent = "";
+        }
+      });
+
+      // Kalau user sudah login → langsung ke todo.html
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          window.location.href = "todo.html";
+        }
+      });
+
+      // Tombol register
+      window.goRegister = function () {
+        window.location.href = "register.html";
+      };
+    </script>
+  </body>
 </html>
