@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <div class="container">
@@ -83,6 +83,9 @@
         onAuthStateChanged,
       } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
+      // ============================
+      // LOGIN FORM HANDLER
+      // ============================
       const form = document.getElementById("loginForm");
       const errorEl = document.getElementById("errorMessage");
       const successEl = document.getElementById("successMessage");
@@ -97,8 +100,9 @@
           await signInWithEmailAndPassword(auth, email, password);
           successEl.textContent = "Login berhasil! Redirecting...";
           errorEl.textContent = "";
+
           setTimeout(() => {
-            window.location.href = "todo.html";
+            window.location.href = "todo.html"; // konsisten
           }, 1000);
         } catch (err) {
           errorEl.textContent = "Login gagal: " + err.message;
@@ -109,13 +113,13 @@
       // Kalau user sudah login → langsung ke todo.html
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          window.location.href = "todo.html";
+          window.location.href = "todo.html"; // konsisten
         }
       });
 
       // Tombol register
       window.goRegister = function () {
-        window.location.href = "register.html";
+        window.location.href = "register.html"; // konsisten
       };
     </script>
   </body>

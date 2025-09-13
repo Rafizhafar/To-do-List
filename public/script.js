@@ -139,7 +139,7 @@ onAuthStateChanged(auth, (user) => {
       if (e.key === "Enter") addTask(user);
     });
   } else {
-    window.location.href = "index.html"; // kalau belum login → balik ke login
+    window.location.href = "index.html"; // balik ke login kalau belum login
   }
 });
 
