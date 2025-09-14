@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - ToDo App</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="
-  
-  css/register.css">
+  <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
   <div class="container">
@@ -31,7 +29,7 @@
             <label for="userName">Username</label>
             <div class="input-wrapper">
               <input type="text" id="userName" placeholder="johndoe" required>
-              <div class="input-icon">👤</div>
+              <div class="input-icon">@</div>
             </div>
           </div>
         </div>
@@ -87,7 +85,7 @@
       <div class="success-message" id="successMessage"></div>
 
       <div class="footer">
-        <p>© 2025 TodoApp. Made with ❤️</p>
+        <p>TodoApp @Rafizhaf</p>
       </div>
     </div>
   </div>
@@ -123,13 +121,18 @@
           createdAt: serverTimestamp()
         });
 
+        document.getElementById("successMessage").style.display = "block";
         document.getElementById("successMessage").innerText = "Registrasi berhasil! Silakan login.";
+        document.getElementById("errorMessage").style.display = "none";
+        
         setTimeout(() => {
           window.location.href = "index.html";
         }, 2000);
 
       } catch (error) {
+        document.getElementById("errorMessage").style.display = "block";
         document.getElementById("errorMessage").innerText = error.message;
+        document.getElementById("successMessage").style.display = "none";
       }
     }
 
@@ -144,7 +147,9 @@
       const confirmPassword = document.getElementById("confirmPassword").value;
 
       if (password !== confirmPassword) {
+        document.getElementById("errorMessage").style.display = "block";
         document.getElementById("errorMessage").innerText = "Password tidak sama!";
+        document.getElementById("successMessage").style.display = "none";
         return;
       }
 

@@ -55,14 +55,11 @@
               <span>or</span>
             </div>
 
-            <button
-              type="button"
-              class="btn-secondary"
-              onclick="goRegister()"
-              id="registerBtn"
-            >
+            <!-- NOTE: removed inline "onclick" to avoid "goRegister is not defined" errors -->
+            <button type="button" class="btn-secondary" id="registerBtn">
               Create Account
             </button>
+            <div class="message" id="messageBox"></div>
           </div>
         </form>
 
@@ -71,11 +68,14 @@
         <div class="success-message" id="successMessage"></div>
 
         <div class="footer">
-          <p>© 2025 TodoApp. Made with ❤️</p>
+          <p>TodoApp @Rafizhaf</p>
         </div>
       </div>
     </div>
+    <!-- tempat pesan -->
+    
 
+    
     <script type="module">
       import { auth } from "./firebase-config.js";
       import {
@@ -83,44 +83,80 @@
         onAuthStateChanged,
       } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-      // ============================
-      // LOGIN FORM HANDLER
-      // ============================
       const form = document.getElementById("loginForm");
-      const errorEl = document.getElementById("errorMessage");
-      const successEl = document.getElementById("successMessage");
+      const registerBtn = document.getElementById("registerBtn");
+      const messageBox = document.getElementById("messageBox");
 
-      // Event submit login
+      // fungsi untuk menampilkan pesan sukses / error
+      function showMessage(text, type = "success") {
+        messageBox.textContent = text;
+        messageBox.className = "message " + type; // tambahkan class success/error
+        messageBox.style.display = "block";
+
+        // auto-hide setelah 3 detik
+        setTimeout(() => {
+          messageBox.style.display = "none";
+        }, 3000);
+      }
+
+      // event submit form login
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
+
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
 
         try {
-          await signInWithEmailAndPassword(auth, email, password);
-          successEl.textContent = "Login berhasil! Redirecting...";
-          errorEl.textContent = "";
+          const userCredential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          console.log("Signed in:", userCredential.user);
 
+          // tampilkan pesan sukses
+          showMessage("✅ Login berhasil! Mengalihkan...", "success");
+
+          // redirect setelah sedikit delay agar user sempat lihat pesan
           setTimeout(() => {
-            window.location.href = "todo.html"; // konsisten
-          }, 1000);
+            window.location.href = "todo.html";
+          }, 1500);
         } catch (err) {
-          errorEl.textContent = "Login gagal: " + err.message;
-          successEl.textContent = "";
+          console.error("Login error:", err);
+
+          // mapping error biar lebih ramah untuk user
+          let errorMessage = "Terjadi kesalahan saat login.";
+          if (err.code === "auth/invalid-credential") {
+            errorMessage = "Email atau password salah.";
+          } else if (err.code === "auth/user-not-found") {
+            errorMessage =
+              "Akun tidak ditemukan. Silakan daftar terlebih dahulu.";
+          } else if (err.code === "auth/wrong-password") {
+            errorMessage = "Password yang kamu masukkan salah.";
+          } else if (err.code === "auth/too-many-requests") {
+            errorMessage = "Terlalu banyak percobaan login. Coba lagi nanti.";
+          }
+
+          showMessage("❌ " + errorMessage, "error");
         }
       });
 
-      // Kalau user sudah login → langsung ke todo.html
+      // auto-redirect jika sudah login
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          window.location.href = "todo.html"; // konsisten
+          console.log("User already signed in, redirecting...");
+          window.location.href = "todo.html";
         }
       });
 
-      // Tombol register
-      window.goRegister = function () {
-        window.location.href = "register.html"; // konsisten
-      };
+      // tombol register
+      if (registerBtn) {
+        registerBtn.addEventListener("click", () => {
+          window.location.href = "register.html";
+        });
+      } else {
+        console.warn("registerBtn not found in DOM");
+      }
     </script>
   </body>
 </html>
