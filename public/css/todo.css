@@ -71,7 +71,6 @@ body {
 }
 
 .todo-app h2::before {
-  content: "📝";
   font-size: 32px;
   margin-right: 12px;
 }
