@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/todo.css" />
@@ -16,51 +16,45 @@
     <div class="container">
       <div class="todo-app">
         <div class="header-bar">
-          <h2>To-Do List</h2>
+          <h2>To-Do App</h2>
           <button id="logoutBtn" class="btn-logout">Logout</button>
         </div>
 
-        <div class="date-tabs">
-          <button class="date-tab" data-date="yesterday">Kemarin</button>
-          <button class="date-tab active" data-date="today">Hari Ini</button>
-          <button class="date-tab" data-date="tomorrow">Besok</button>
+        <div class="filter-section">
+          <div class="filter-header">
+            📅 Filter Tanggal
+          </div>
+          <div class="filter-controls">
+            <div class="date-input-group">
+              <label>Pilih Tanggal:</label>
+              <input type="date" id="filter-date" />
+            </div>
+            <div class="quick-filters">
+              <button class="quick-filter-btn" data-filter="yesterday">Kemarin</button>
+              <button class="quick-filter-btn active" data-filter="today">Hari Ini</button>
+              <button class="quick-filter-btn" data-filter="tomorrow">Besok</button>
+              <button class="quick-filter-btn" data-filter="all">Semua</button>
+            </div>
+          </div>
         </div>
 
         <div class="input-section">
           <div class="row">
             <input type="text" id="input-box" placeholder="Masukan task baru..." />
+            <input type="date" id="task-date" class="task-date-select" />
             <button id="add-btn">+ Tambah</button>
           </div>
         </div>
 
-        <div class="task-section" id="yesterday-section" style="display: none">
+        <div class="task-section" id="tasks-section">
           <div class="section-header">
             <div class="section-title">
-              📅 Kemarin
-              <span class="task-count-badge" id="yesterday-count">0</span>
+              <span id="section-icon">🎯</span>
+              <span id="section-label">Hari Ini</span>
+              <span class="task-count-badge" id="task-count">0</span>
             </div>
           </div>
-          <ul id="yesterday-container"></ul>
-        </div>
-
-        <div class="task-section" id="today-section">
-          <div class="section-header">
-            <div class="section-title">
-              🎯 Hari Ini
-              <span class="task-count-badge" id="today-count">0</span>
-            </div>
-          </div>
-          <ul id="today-container"></ul>
-        </div>
-
-        <div class="task-section" id="tomorrow-section" style="display: none">
-          <div class="section-header">
-            <div class="section-title">
-              🚀 Besok
-              <span class="task-count-badge" id="tomorrow-count">0</span>
-            </div>
-          </div>
-          <ul id="tomorrow-container"></ul>
+          <ul id="tasks-container"></ul>
         </div>
 
         <div class="summary">
@@ -81,8 +75,8 @@
         </div>
       </div>
     </div>
-
-    <!-- Script utama -->
     <script type="module" src="script.js"></script>
-  </body>
-</html>
+    </body>
+
+    
+    </html>
