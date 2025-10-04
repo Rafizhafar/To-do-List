@@ -3,14 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.gstatic.com https://www.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://www.googleapis.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src https://fonts.gstatic.com;
+        connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://my-todolist-38c20.firebaseapp.com https://firestore.googleapis.com wss://*.firebaseio.com;
+        img-src 'self' data: https:;
+      "
+    />
     <title>Login - ToDo App</title>
+
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body>
     <div class="container">
       <div class="card">
@@ -19,7 +31,7 @@
           <p>Organize your tasks beautifully</p>
         </div>
 
-        <!-- FORM LOGIN -->
+        <!-- Form Login -->
         <form id="loginForm">
           <div class="form-group">
             <label for="email">Email Address</label>
@@ -28,6 +40,7 @@
                 type="email"
                 id="email"
                 placeholder="Enter your email"
+                autocomplete="username"
                 required
               />
               <div class="input-icon">@</div>
@@ -41,6 +54,7 @@
                 type="password"
                 id="password"
                 placeholder="Enter your password"
+                autocomplete="current-password"
                 required
               />
               <div class="input-icon">🔒</div>
@@ -52,31 +66,23 @@
               Sign In
             </button>
 
-            <div class="divider">
-              <span>or</span>
-            </div>
+            <div class="divider"><span>or</span></div>
 
-            <!-- NOTE: removed inline "onclick" to avoid "goRegister is not defined" errors -->
             <button type="button" class="btn-secondary" id="registerBtn">
               Create Account
             </button>
-            <div class="message" id="messageBox"></div>
           </div>
+
+          <div class="message" id="messageBox"></div>
         </form>
 
-        <!-- tempat pesan -->
-        <div class="error-message" id="errorMessage"></div>
-        <div class="success-message" id="successMessage"></div>
-
         <div class="footer">
-          <p>TodoApp @Rafizhaf</p>
+          <p>TodoApp ©Rafizhaf</p>
         </div>
       </div>
     </div>
-    <!-- tempat pesan -->
-    
 
-    
+    <!-- Script Module -->
     <script type="module">
       import { auth } from "./firebase-config.js";
       import {
@@ -85,79 +91,100 @@
       } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
       const form = document.getElementById("loginForm");
+      const loginBtn = document.getElementById("loginBtn");
       const registerBtn = document.getElementById("registerBtn");
       const messageBox = document.getElementById("messageBox");
 
-      // fungsi untuk menampilkan pesan sukses / error
+      /** Fungsi menampilkan pesan sukses/error */
       function showMessage(text, type = "success") {
         messageBox.textContent = text;
-        messageBox.className = "message " + type; // tambahkan class success/error
+        messageBox.className = "message " + type;
         messageBox.style.display = "block";
 
-        // auto-hide setelah 3 detik
         setTimeout(() => {
           messageBox.style.display = "none";
-        }, 3000);
+        }, 3500);
       }
 
-      // event submit form login
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
-
-        try {
-          const userCredential = await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-          console.log("Signed in:", userCredential.user);
-
-          // tampilkan pesan sukses
-          showMessage("✅ Login berhasil! Mengalihkan...", "success");
-
-          // redirect setelah sedikit delay agar user sempat lihat pesan
+      /** Tombol Register — redirect ke register.html */
+      if (registerBtn) {
+        registerBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          showMessage("🔄 Mengalihkan ke halaman pendaftaran...", "success");
           setTimeout(() => {
-            window.location.href = "todo.html";
-          }, 1500);
-        } catch (err) {
-          console.error("Login error:", err);
+            window.location.href = "register.html";
+          }, 900);
+        });
+      }
 
-          // mapping error biar lebih ramah untuk user
-          let errorMessage = "Terjadi kesalahan saat login.";
-          if (err.code === "auth/invalid-credential") {
-            errorMessage = "Email atau password salah.";
-          } else if (err.code === "auth/user-not-found") {
-            errorMessage =
-              "Akun tidak ditemukan. Silakan daftar terlebih dahulu.";
-          } else if (err.code === "auth/wrong-password") {
-            errorMessage = "Password yang kamu masukkan salah.";
-          } else if (err.code === "auth/too-many-requests") {
-            errorMessage = "Terlalu banyak percobaan login. Coba lagi nanti.";
+      /** Proses Login */
+      if (form) {
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value;
+
+          if (!email || !password) {
+            showMessage("⚠️ Harap isi semua kolom.", "error");
+            return;
           }
 
-          showMessage("❌ " + errorMessage, "error");
-        }
-      });
+          // Disable button saat proses login
+          loginBtn.disabled = true;
+          loginBtn.textContent = "Signing in...";
 
-      // auto-redirect jika sudah login
+          try {
+            const userCredential = await signInWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+
+            showMessage("✅ Login berhasil! Mengalihkan...", "success");
+            console.log("Login success:", userCredential.user);
+
+            setTimeout(() => {
+              window.location.href = "todo.html";
+            }, 1500);
+          } catch (err) {
+            console.error("Login error:", err.code);
+
+            let errorMessage = "Terjadi kesalahan saat login.";
+            switch (err.code) {
+              case "auth/invalid-credential":
+                errorMessage = "Email atau password salah.";
+                break;
+              case "auth/user-not-found":
+                errorMessage = "Akun tidak ditemukan. Silakan daftar dulu.";
+                break;
+              case "auth/wrong-password":
+                errorMessage = "Password salah. Silakan coba lagi.";
+                break;
+              case "auth/too-many-requests":
+                errorMessage = "Terlalu banyak percobaan. Coba lagi nanti.";
+                break;
+              case "auth/invalid-email":
+                errorMessage = "Format email tidak valid.";
+                break;
+            }
+
+            showMessage("❌ " + errorMessage, "error");
+            
+            // Re-enable button
+            loginBtn.disabled = false;
+            loginBtn.textContent = "Sign In";
+          }
+        });
+      }
+
+      /** Redirect otomatis jika user sudah login */
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          console.log("User already signed in, redirecting...");
+          console.log("User sudah login, mengalihkan...");
           window.location.href = "todo.html";
         }
       });
-
-      // tombol register
-      if (registerBtn) {
-        registerBtn.addEventListener("click", () => {
-          window.location.href = "register.html";
-        });
-      } else {
-        console.warn("registerBtn not found in DOM");
-      }
     </script>
   </body>
 </html>
