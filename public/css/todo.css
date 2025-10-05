@@ -556,24 +556,55 @@ ul li span::before {
     font-size: 12px;
   }
 
+  .date-input-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .date-input-group label {
+    font-size: 13px;
+  }
+
+  .date-input-group input[type="date"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .quick-filters {
+    width: 100%;
+  }
+
+  .quick-filter-btn {
+    flex: 1;
+    min-width: calc(50% - 4px);
+  }
+
   .row {
     flex-wrap: wrap;
     padding: 8px;
+    gap: 8px;
   }
 
   input#input-box {
     width: 100%;
     padding: 10px;
+    order: 1;
   }
 
   .task-date-select {
-    width: 100%;
+    width: calc(50% - 4px);
     padding: 10px;
+    font-size: 13px;
+    order: 2;
   }
 
   #add-btn {
-    width: 100%;
+    width: calc(50% - 4px);
     padding: 12px;
+    font-size: 14px;
+    order: 3;
   }
 }
 
